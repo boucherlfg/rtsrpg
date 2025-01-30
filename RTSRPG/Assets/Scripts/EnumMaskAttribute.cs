@@ -22,9 +22,8 @@ public class EnumMaskPropertyDrawer : PropertyDrawer
         }
     }
 }
+#endif
 
 public class EnumMaskAttribute : PropertyAttribute
 {
 }
-
-#endif
