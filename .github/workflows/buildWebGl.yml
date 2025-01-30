@@ -5,7 +5,7 @@
 
 name: Build Project
 env:
-  project_path: rtsrpg
+  project_path: RTSRPG
 on: 
     push:
       branches:
