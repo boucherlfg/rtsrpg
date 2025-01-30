@@ -5,7 +5,7 @@
 
 name: Build Project
 env:
-  project_path: escape-the-ram
+  project_path: rtsrpg
 on: 
     push:
       branches:
@@ -51,6 +51,6 @@ jobs:
         env:
            BUTLER_CREDENTIALS: ${{ secrets.BUTLER_API_KEY }}
            CHANNEL: html5
-           ITCH_GAME: escape-the-ram
+           ITCH_GAME: rtsrpg
            ITCH_USER: deraju
            PACKAGE: build/WebGL
