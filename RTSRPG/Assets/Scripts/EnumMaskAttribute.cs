@@ -4,10 +4,10 @@
  The only thing that you cannot do with this script is sell it by itself without substantially modifying it.
  */
 
-using UnityEditor;
+using UnityEngine;
 
 #if UNITY_EDITOR
-using UnityEngine;
+using UnityEditor;
 
 [CustomPropertyDrawer(typeof(EnumMaskAttribute))]
 public class EnumMaskPropertyDrawer : PropertyDrawer
