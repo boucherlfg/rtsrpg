@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Core;
-using Data;
 using Sirenix.OdinInspector;
 using States;
 using UnityEngine;
@@ -12,8 +11,6 @@ namespace Agent
     public sealed class AgentScript : MonoBehaviour
     {
         private static int _generator;
-
-        public AgentAnimator agentAnimator;
         private WorldState _worldState;
         [SerializeReference]
         [TypeFilter("GetFilteredTypeList")]
@@ -26,8 +23,8 @@ namespace Agent
                 .Where(x => !x.IsGenericTypeDefinition)
                 .Where(x => typeof(AgentState).IsAssignableFrom(x));
         }
-        
-        public int Id { get; private set; }
+
+        private int Id { get; set; }
 
         private void Awake()
         {
@@ -43,9 +40,9 @@ namespace Agent
                 position.Position = transform.position;
                 position.PositionChanged.Subscribe(HandlePositionChanged);
             }
-            
-            _worldState.Add(Id, agentState);
-            agentAnimator.Initialize(agentState);
+
+            agentState.id = Id;
+            _worldState.Add(agentState);
         }
 
         private void HandlePositionChanged()
@@ -55,9 +52,8 @@ namespace Agent
 
         public void OnDespawn()
         {
-            agentAnimator.Uninitialize(agentState);
             if(agentState is IPosition position) position.PositionChanged.Unsubscribe(HandlePositionChanged);
-            _worldState.Remove(Id);
+            agentState.shouldUninitialize = true;
         }
     }
 }

@@ -1,7 +1,10 @@
-﻿namespace States
+﻿using UnityEngine;
+
+namespace States
 {
     public interface IMoving
     {
-        public float Speed { get; }
+        Vector2? MovementPosition { get; set; }
+        float Speed { get; }
     }
 }

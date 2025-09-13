@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Generic
 {
-    public class StaticDict<T> : IEnumerable<(int index, T value)>
+    public class StaticDict<T> : IEnumerable<T>
     {
         private T[] _values;
         public StaticDict(int capacity)
@@ -29,20 +29,14 @@ namespace Generic
             value = _values[index];
             return value != null;
         }
-        public IEnumerator<(int index, T value)> GetEnumerator()
+        public IEnumerator<T> GetEnumerator()
         {
-            for (var i = 0; i < _values.Length; ++i)
-            {
-                if(_values[i] != null) yield return (i, _values[i]);
-            }
+            return ((IEnumerable<T>)_values).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            for (var i = 0; i < _values.Length; ++i)
-            {
-                if(_values[i] != null) yield return (i, _values[i]);
-            }
+            return _values.GetEnumerator();
         }
     }
 }

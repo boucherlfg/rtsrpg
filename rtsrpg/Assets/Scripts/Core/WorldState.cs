@@ -9,8 +9,8 @@ namespace Core
 {
     public class WorldState
     {
-        private readonly Dictionary<Type, StaticDict<AgentState>> _agentStatesByType = new();
-        private Dictionary<Type, int> _maxCounts = new();
+        private readonly List<AgentState> _agentStates = new();
+        private readonly Dictionary<Type, int> _maxCounts = new();
     
         public void Initialize(PoolingConfig config)
         {
@@ -20,29 +20,36 @@ namespace Core
             }
         }
     
-        public void Add(int id, AgentState agentState)
+        public void Add<T>(T agentState) where T : AgentState
         {
-            var type = agentState.GetType();
-            _agentStatesByType.TryAdd(type, new StaticDict<AgentState>(_maxCounts[type]));
-            _agentStatesByType[type][id] = agentState;
+            if (Count(agentState.GetType()) >= _maxCounts[agentState.GetType()]) return;
+            _agentStates.Add(agentState);
+        }
+
+        public void Remove<T>(T agent) where T : AgentState
+        {
+            _agentStates.Remove(agent);
         }
 
         public void Remove(int id)
         {
-            foreach (var item in _agentStatesByType)
-            {
-                item.Value[id] = null;
-            }
+            _agentStates.RemoveAll(x => x.id == id);
         }
     
-        public IEnumerable<(int index, T value)> GetAll<T>() where T : AgentState
+        public IEnumerable<T> GetAll<T>(Func<T, bool> predicate = null) 
         {
-            return _agentStatesByType[typeof(T)].Select(x => (x.index, x.value as T));
+            return predicate == null ? _agentStates.OfType<T>() : _agentStates.OfType<T>().Where(predicate);
         }
 
-        public Dictionary<Type, AgentState> GetStatesFor(int id)
+        public IEnumerable<AgentState> GetStatesFor(int id)
         {
-            return _agentStatesByType.Select(kvp => kvp.Value[id]).ToDictionary(agent => agent.GetType(), agent => agent);
+            return _agentStates.Where(x => x.id == id);
+        }
+
+        public int Count(Type type, Func<AgentState, bool> predicate = null) 
+        {
+            return predicate == null ? _agentStates.Count(x => x.GetType() == type) 
+                : _agentStates.Count(x => x.GetType() == type && predicate(x));
         }
     }
 }

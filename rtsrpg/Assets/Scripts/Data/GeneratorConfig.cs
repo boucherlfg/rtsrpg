@@ -6,6 +6,7 @@ namespace Data
     [CreateAssetMenu(menuName = "Felix/GeneratorConfig")]
     public class GeneratorConfig : ScriptableObject
     {
-        public AgentScript toSpawn;
+        public AgentScript player;
+        public AgentScript test;
     }
 }

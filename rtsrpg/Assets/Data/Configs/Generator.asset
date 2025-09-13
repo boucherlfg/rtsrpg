@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b74caf3503bc4f86af23812f828c9aca, type: 3}
   m_Name: Generator
   m_EditorClassIdentifier: 
-  toSpawn: {fileID: 6822002675228197307, guid: f88b8595c8c63c847b1ba5d432d6e1fc, type: 3}
+  player: {fileID: 6822002675228197307, guid: f88b8595c8c63c847b1ba5d432d6e1fc, type: 3}
+  test: {fileID: 6822002675228197307, guid: 05a40a0fac0ff0749ac508e1a7415b31, type: 3}
