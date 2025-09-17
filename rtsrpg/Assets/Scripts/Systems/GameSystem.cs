@@ -1,10 +1,11 @@
-﻿using Core;
+﻿using System.Linq;
+using Core;
 using States;
 using UnityEngine;
 
 namespace Systems
 {
-    public abstract class GameSystem<T> : MonoBehaviour where T : AgentState
+    public abstract class GameSystem<T> : MonoBehaviour
     {
         protected WorldState World;
         protected virtual void Awake()
@@ -14,20 +15,26 @@ namespace Systems
 
         private void Update()
         {
-            var agents = World.GetAll<T>();
+            var agents = World.GetAll<T>().ToArray();
+            
             foreach (var agent in agents)
             {
-                if (!agent.initialized)
-                {
-                    agent.initialized = true;
-                    Initialize(agent);
-                }
-                if (agent.shouldUninitialize && !agent.uninitialized)
-                {
-                    agent.uninitialized = true;
-                    Uninitialize(agent);
-                    World.Remove(agent);
-                }
+                if (agent is not AgentState state) continue;
+                if (state.initialized) continue;
+                state.initialized = true;
+                Initialize(agent);
+            }
+
+            foreach (var agent in agents)
+            {
+                if (agent is not AgentState state) continue;
+                if (!state.shouldUninitialize || state.uninitialized) continue;
+                state.uninitialized = true;
+                Uninitialize(agent);
+                World.Remove(state);
+            }
+            foreach (var agent in agents)
+            {
                 UpdateOneState(agent);
             }
         }

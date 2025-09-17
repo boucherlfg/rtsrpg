@@ -1,4 +1,6 @@
-﻿public class GenericEvent
+﻿
+[System.Serializable]
+public class GenericEvent
 {
     private event System.Action Evt;
     
@@ -9,7 +11,7 @@
     public void Invoke() => Evt?.Invoke();
 }
 
-public class GenericEvent<T>
+public class GenericEvent<T> : GenericEvent
 {
     private event System.Action<T> Evt;
     public void Subscribe(System.Action<T> action) => Evt += action;

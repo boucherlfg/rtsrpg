@@ -11,7 +11,13 @@ namespace Core
             _config = config;
             var pool = ServiceManager.Instance.Get<Pooling>();
             pool.Spawn(_config.player, Vector2.zero);
-            pool.Spawn(_config.test, new Vector2(2.5f, 2.5f));
+            for (int i = 0; i < 100; i++)
+            {
+                Vector2 pos = Random.insideUnitCircle * 10;
+                while(pos.magnitude < 1f) pos = Random.insideUnitCircle * 50;
+                pool.Spawn(_config.test, pos);
+            }
+            
         }
     }
 }

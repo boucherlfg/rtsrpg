@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Core;
+using UnityEngine;
 
 public static class Extensions
 {
@@ -12,5 +14,22 @@ public static class Extensions
             fields.SetValue(copy, fields.GetValue(source));
         }
         return (T)copy;
+    }
+
+    public static async Task Interpolate(
+        float duration,
+        Action<float> onStep,
+        Action onCompleted = null, 
+        Func<float, float> curve = null)
+    {
+        curve ??= x => x; 
+        for (float f = 0; f < duration; f += Time.deltaTime)
+        {
+            onStep?.Invoke(curve(f / duration));
+            await Task.Yield();
+        }
+
+        onStep?.Invoke(1.0f);
+        onCompleted?.Invoke();
     }
 }

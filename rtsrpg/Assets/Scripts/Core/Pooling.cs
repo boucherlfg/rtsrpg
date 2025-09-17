@@ -25,12 +25,20 @@ namespace Core
 
         public void Spawn(AgentScript script, Vector2 position)
         {
-            var agent = _agents.Find(x => x.GetType() == script.GetType() && !x.gameObject.activeSelf);
+            var agent = _agents.Find(x => 
+                x.agentState.GetType() == script.agentState.GetType() 
+                && !x.gameObject.activeSelf);
+            
             agent.gameObject.SetActive(true);
             agent.transform.position = position;
             agent.OnSpawn();
         }
-
+        public void Despawn(int agentId)
+        {
+            var agent = _agents.Find(x => x.Id == agentId);
+            agent.gameObject.SetActive(false);
+            agent.OnDespawn();
+        }
         public void Despawn(AgentScript agent)
         {
             agent.gameObject.SetActive(false);

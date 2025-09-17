@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Events;
 using States;
 using UnityEngine;
 
@@ -7,11 +8,13 @@ namespace Systems
     public class PlayerSystem : GameSystem<PlayerState>
     {
         private Camera _mainCamera;
-        
+        private OnPositionChanged _onPositionChanged;
+        private OnInteracted _onInteracted;
         protected override void Awake()
         {
             base.Awake();
-            _mainCamera = Camera.main;
+            _onPositionChanged = ServiceManager.Instance.Get<OnPositionChanged>();
+            _onInteracted = ServiceManager.Instance.Get<OnInteracted>();
         }
         
         private void HandleMove(PlayerState state)
@@ -34,7 +37,7 @@ namespace Systems
             }
                 
             state.Position += direction.normalized * movement;
-            state.PositionChanged.Invoke();
+            _onPositionChanged.Invoke((state, state.Position));
         }
 
         private void HandleInteract(PlayerState state)
@@ -51,19 +54,29 @@ namespace Systems
                 state.AttackTarget = choice.OrderBy(x => Vector2.Distance(clickTarget, x.Position)).First();
             }
 
-            if (state.AttackTarget == null) return;
-            
+            if (state.AttackTarget is not AgentState target) return;
+            if (target.shouldUninitialize) return;
+            if (state.IsCoolingDown) return;
+
+            // get direction and movement quantity
             var direction = state.AttackTarget.Position - state.Position;
             var movement = state.Speed * Time.deltaTime;
+            
+            // if we're in range, interact with
             if (direction.magnitude + movement < state.InteractRange)
             {
-                state.AttackTarget.Interact.Invoke(state);
-                state.AttackTarget = null;
-                return;
+                _onInteracted.Invoke((state, target));
+                state.IsCoolingDown = true;
+                _ = Extensions.Interpolate(state.InteractCooldown, null, () =>
+                {
+                    state.IsCoolingDown = false;
+                });
             }
-            
-            state.Position += direction.normalized * movement;
-            state.PositionChanged.Invoke();
+            else 
+            {
+                state.Position += direction.normalized * movement;
+                _onPositionChanged.Invoke((state, state.Position));
+            }
         }
 
         protected override void UpdateOneState(PlayerState agent)
@@ -74,7 +87,7 @@ namespace Systems
 
         protected override void Initialize(PlayerState agent)
         {
-            
+            _mainCamera = Camera.main;
         }
 
         protected override void Uninitialize(PlayerState agent)

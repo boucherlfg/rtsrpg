@@ -15,7 +15,8 @@ namespace Agent
         [SerializeReference]
         [TypeFilter("GetFilteredTypeList")]
         public AgentState agentState;
-        
+
+        [SerializeField] private List<AbstractUpdater> updaters;
         public IEnumerable<Type> GetFilteredTypeList()
         {
             return typeof(AgentState).Assembly.GetTypes()
@@ -24,35 +25,42 @@ namespace Agent
                 .Where(x => typeof(AgentState).IsAssignableFrom(x));
         }
 
-        private int Id { get; set; }
+        public int Id { get; private set; }
+
+        private void OnValidate()
+        {
+            updaters.Clear();
+            foreach (var updater in GetComponents<AbstractUpdater>())
+            {
+                updaters.Add(updater);
+            }
+        }
 
         private void Awake()
         {
             Id = _generator;
             _generator += 1;
             _worldState = ServiceManager.Instance.Get<WorldState>();
+            
         }
 
         public void OnSpawn()
         {
-            if (agentState is IPosition position)
-            {
-                position.Position = transform.position;
-                position.PositionChanged.Subscribe(HandlePositionChanged);
-            }
-
             agentState.id = Id;
             _worldState.Add(agentState);
-        }
-
-        private void HandlePositionChanged()
-        {
-            if (agentState is IPosition position) transform.position = position.Position;
+            
+            foreach (var component in updaters)
+            {
+                component.Initialize(agentState);
+            }
         }
 
         public void OnDespawn()
         {
-            if(agentState is IPosition position) position.PositionChanged.Unsubscribe(HandlePositionChanged);
+            foreach (var component in updaters)
+            {
+                component.Uninitialize();
+            }
             agentState.shouldUninitialize = true;
         }
     }
