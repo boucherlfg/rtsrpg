@@ -1,4 +1,4 @@
-﻿
+﻿#if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.Toolbars;
 using UnityEngine;
@@ -15,3 +15,4 @@ public class RecompileToolbarButton : EditorToolbarButton
         clicked += () => UnityEditor.Compilation.CompilationPipeline.RequestScriptCompilation();
     }
 }
+#endif
