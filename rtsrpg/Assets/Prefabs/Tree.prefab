@@ -197,6 +197,10 @@ MonoBehaviour:
         shouldUninitialize: 0
         uninitialized: 0
         maxHealth: 3
+        startInventory:
+        - {fileID: 11400000, guid: 8a56cdf4f7eb2d14da6cc26d95ab7b52, type: 2}
+        - {fileID: 11400000, guid: 8a56cdf4f7eb2d14da6cc26d95ab7b52, type: 2}
+        - {fileID: 11400000, guid: 8a56cdf4f7eb2d14da6cc26d95ab7b52, type: 2}
 --- !u!114 &-5302163944123295926
 MonoBehaviour:
   m_ObjectHideFlags: 0

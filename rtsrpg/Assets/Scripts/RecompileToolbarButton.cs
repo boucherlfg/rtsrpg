@@ -12,7 +12,7 @@ public class RecompileToolbarButton : EditorToolbarButton
     {
         text = "Recompile";
         tooltip = "Force scripts to recompile";
-        clicked += () => UnityEditor.Compilation.CompilationPipeline.RequestScriptCompilation();
+        clicked += UnityEditor.Compilation.CompilationPipeline.RequestScriptCompilation;
     }
 }
 #endif

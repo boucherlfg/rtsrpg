@@ -1,17 +1,15 @@
-﻿using System.Collections.Generic;
-using Agent;
-using Generic;
+﻿using Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace States
 {
     [System.Serializable]
-    public class AgentState
+    public abstract class AgentState : ICopiable<AgentState>
     {
         [HideInInspector] public int id;
         [HideInInspector] public bool initialized;
         [HideInInspector] public bool shouldUninitialize;
         [HideInInspector] public bool uninitialized;
+        public abstract AgentState Copy();
     }
 }

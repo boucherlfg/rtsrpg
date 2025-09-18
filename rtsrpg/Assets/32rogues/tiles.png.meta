@@ -2516,7 +2516,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: tiles_90
+      name: WoodPile
       rect:
         serializedVersion: 2
         x: 192
@@ -3343,6 +3343,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
+      WoodPile: 1836438544
       bloo: 990154999
       blood: 117767425
       bone: -369357944
@@ -3460,7 +3461,6 @@ TextureImporter:
       tiles_88: 932944879
       tiles_89: 27786527
       tiles_9: 735936304
-      tiles_90: 1836438544
       tiles_91: -2054035174
       tiles_92: 1926855576
       tiles_93: -787932964

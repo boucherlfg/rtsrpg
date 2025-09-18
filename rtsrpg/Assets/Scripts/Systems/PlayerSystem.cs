@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Events;
+using Generic;
 using States;
 using UnityEngine;
 
@@ -10,12 +11,6 @@ namespace Systems
         private Camera _mainCamera;
         private OnPositionChanged _onPositionChanged;
         private OnInteracted _onInteracted;
-        protected override void Awake()
-        {
-            base.Awake();
-            _onPositionChanged = ServiceManager.Instance.Get<OnPositionChanged>();
-            _onInteracted = ServiceManager.Instance.Get<OnInteracted>();
-        }
         
         private void HandleMove(PlayerState state)
         {
@@ -85,14 +80,25 @@ namespace Systems
             HandleInteract(agent);
         }
 
-        protected override void Initialize(PlayerState agent)
+        protected override void InitializeState(PlayerState agent)
         {
             _mainCamera = Camera.main;
         }
 
-        protected override void Uninitialize(PlayerState agent)
+        protected override void UninitializeState(PlayerState agent)
         {
-            
+            // nothing
+        }
+
+        protected override void InitializeSystem()
+        {
+            _onPositionChanged = ServiceManager.Instance.Get<OnPositionChanged>();
+            _onInteracted = ServiceManager.Instance.Get<OnInteracted>();
+        }
+
+        protected override void UninitializeSystem()
+        {
+            // nothin
         }
     }
 }

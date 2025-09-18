@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 6822002675228197307}
   - component: {fileID: 8970683807042409140}
   - component: {fileID: 6658402359844961217}
+  - component: {fileID: 1465536625929257257}
   m_Layer: 0
   m_Name: PlayerAgent
   m_TagString: Untagged
@@ -223,6 +224,7 @@ MonoBehaviour:
   updaters:
   - {fileID: 8970683807042409140}
   - {fileID: 6658402359844961217}
+  - {fileID: 1465536625929257257}
   references:
     version: 2
     RefIds:
@@ -237,6 +239,7 @@ MonoBehaviour:
         attackDuration: 0.2
         speed: 3
         interactCooldown: 0.5
+        startInventory: []
 --- !u!114 &8970683807042409140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,6 +262,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3c655519577a488681a3de6fc635fb5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1465536625929257257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3843137023846128586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad1c815940ba4965a5fb597bfa776361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &5623929280501375672

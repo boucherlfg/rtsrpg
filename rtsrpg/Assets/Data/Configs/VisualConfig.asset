@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a003b8db9424f8196038a00d8f63e81, type: 3}
+  m_Name: VisualConfig
+  m_EditorClassIdentifier: 
+  floatingImage: {fileID: 4167482331573312639, guid: d541f0d70e014e546a237721972df2d3, type: 3}
+  floatingText: {fileID: 640811108149787832, guid: 84f0b194495a6104ea15622233197cc0, type: 3}
+  destroyParticle: {fileID: 2869440022119403181, guid: 0f843e62c9279d946b2975f3d0cf3dc6, type: 3}
+  floatingTextDelay: 0.25

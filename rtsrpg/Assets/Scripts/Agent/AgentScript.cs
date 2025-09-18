@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Core;
+using Generic;
 using Sirenix.OdinInspector;
 using States;
 using UnityEngine;
@@ -41,12 +42,13 @@ namespace Agent
             Id = _generator;
             _generator += 1;
             _worldState = ServiceManager.Instance.Get<WorldState>();
-            
         }
 
         public void OnSpawn()
         {
+            agentState = agentState.Copy();
             agentState.id = Id;
+            
             _worldState.Add(agentState);
             
             foreach (var component in updaters)
@@ -61,6 +63,7 @@ namespace Agent
             {
                 component.Uninitialize();
             }
+            _worldState.Remove(agentState.id);
             agentState.shouldUninitialize = true;
         }
     }

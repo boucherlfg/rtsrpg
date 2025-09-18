@@ -339,6 +339,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pooling: {fileID: 11400000, guid: 3f98b75c4cd735d4d880973969bcfc30, type: 2}
   generator: {fileID: 11400000, guid: 9fb1e758ae4a14a43acb4275578eb763, type: 2}
+  visual: {fileID: 11400000, guid: 32f50480a794d97419e39e46c22afcdf, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

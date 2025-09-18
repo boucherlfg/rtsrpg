@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Core;
+using Generic;
 using States;
 using UnityEngine;
 
@@ -8,9 +10,15 @@ namespace Systems
     public abstract class GameSystem<T> : MonoBehaviour
     {
         protected WorldState World;
-        protected virtual void Awake()
+        private void Awake()
         {
             World = ServiceManager.Instance.Get<WorldState>();
+            InitializeSystem();
+        }
+
+        private void OnDestroy()
+        {
+            UninitializeSystem();
         }
 
         private void Update()
@@ -22,7 +30,7 @@ namespace Systems
                 if (agent is not AgentState state) continue;
                 if (state.initialized) continue;
                 state.initialized = true;
-                Initialize(agent);
+                InitializeState(agent);
             }
 
             foreach (var agent in agents)
@@ -30,7 +38,7 @@ namespace Systems
                 if (agent is not AgentState state) continue;
                 if (!state.shouldUninitialize || state.uninitialized) continue;
                 state.uninitialized = true;
-                Uninitialize(agent);
+                UninitializeState(agent);
                 World.Remove(state);
             }
             foreach (var agent in agents)
@@ -40,7 +48,13 @@ namespace Systems
         }
 
         protected abstract void UpdateOneState(T agent);
-        protected abstract void Initialize(T agent);
-        protected abstract void Uninitialize(T agent);
+        
+        protected abstract void InitializeState(T agent);
+        
+        protected abstract void UninitializeState(T agent);
+        
+        protected abstract void InitializeSystem();
+        
+        protected abstract void UninitializeSystem();
     }
 }

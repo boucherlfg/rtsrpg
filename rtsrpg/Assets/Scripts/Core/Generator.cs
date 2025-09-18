@@ -1,4 +1,5 @@
 ﻿using Data;
+using Generic;
 using UnityEngine;
 
 namespace Core
